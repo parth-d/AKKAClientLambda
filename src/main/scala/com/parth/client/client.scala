@@ -1,6 +1,7 @@
 package com.parth.client
 
 import akka.actor.ActorSystem
+import akka.http.scaladsl.client.RequestBuilding.Get
 //import akka.actor.TypedActor.dispatcher
 import akka.http.scaladsl.Http
 import akka.http.scaladsl.model.{ContentTypes, HttpEntity, HttpMethods, HttpResponse, HttpRequest}
@@ -10,22 +11,13 @@ import scala.concurrent.duration._
 import scala.concurrent.Future
 
 object client {
-  implicit val system = ActorSystem()
-  implicit val materializer = ActorMaterializer()
+  implicit val system: ActorSystem = ActorSystem()
+  implicit val materializer: ActorMaterializer = ActorMaterializer()
   import system.dispatcher
 
-  val request = HttpRequest(
-    method = HttpMethods.POST,
-    uri = "https://cels0ps0ce.execute-api.us-east-2.amazonaws.com/default/grpcServer",
-    entity = HttpEntity(
-      ContentTypes.`application/json`,
-      s"range=5&time=09:02:00.000&bucket=logsinput&key=log.log"
-    )
-  )
-
   def sendRequest(): Future[String] = {
-    val responseFuture: Future[HttpResponse] = Http().singleRequest(request)
-    System.out.println(request.toString())
+//    val responseFuture: Future[HttpResponse] = Http().singleRequest(request)
+    val responseFuture: Future[HttpResponse] = Http().singleRequest(Get("https://a94he0mou3.execute-api.us-east-2.amazonaws.com/default/bucketextract?range=5&time=09:34:09.000&bucket=logsinput&key=log.log"))
     val entityFuture: Future[HttpEntity.Strict] = responseFuture.flatMap(response => response.entity.toStrict(2.seconds))
     entityFuture.map(entity => entity.data.utf8String)
   }
