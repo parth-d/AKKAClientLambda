@@ -4,8 +4,8 @@ version := "0.1"
 
 scalaVersion := "2.12.4"
 
-val akkaVersion = "2.5.26"
-val akkaHttpVersion = "10.1.11"
+val akkaVersion = "2.6.17"
+val akkaHttpVersion = "10.2.6"
 val typesafeConfigVersion = "1.4.1"
 
 
